@@ -36,10 +36,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.searchscreen.navigation.ROUTE_SEARCH_SCREEN
+import com.example.search.navigation.ROUTE_SEARCH_SCREEN
 import com.example.myapplication.navigation.AppNavHost
 import com.example.myapplication.ui.theme.MyApplicationTheme
-import com.example.bookmarkscreen.navigation.BOOKMARK_ROUTE
+import com.example.bookmark.navigation.BOOKMARK_ROUTE
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

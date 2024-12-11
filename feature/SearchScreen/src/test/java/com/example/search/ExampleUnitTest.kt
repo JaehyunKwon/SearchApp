@@ -1,4 +1,4 @@
-package com.example.bookmarkscreen
+package com.example.search
 
 import org.junit.Test
 

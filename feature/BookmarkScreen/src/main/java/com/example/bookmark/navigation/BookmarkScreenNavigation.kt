@@ -1,6 +1,6 @@
-package com.example.bookmarkscreen.navigation
+package com.example.bookmark.navigation
 
-import com.example.bookmarkscreen.BookmarkScreen
+import com.example.bookmark.BookmarkScreen
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 

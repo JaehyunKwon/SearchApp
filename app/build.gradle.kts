@@ -50,7 +50,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dynamicFeatures += setOf(":dynamicfeature")
 }
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -77,7 +76,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.compiler)
-    implementation(project(":feature:SearchScreen"))
 
+    implementation(project(":feature:SearchScreen"))
     implementation(project(":feature:BookmarkScreen"))
 }

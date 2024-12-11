@@ -1,4 +1,4 @@
-package com.example.searchscreen
+package com.example.search.screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -16,12 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.homescreen.R
 
 @Composable
 fun SearchScreen(
-    onSubmitUserName: (String) -> Unit
+    onSubmitSearchText: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -29,17 +31,16 @@ fun SearchScreen(
             .padding(horizontal = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        var userName by remember { mutableStateOf("") }
-        Text(text = "Input User Name")
+        var searchText by remember { mutableStateOf("") }
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
-            value = userName,
+            value = searchText,
             onValueChange = {
-                userName = it
+                searchText = it
             })
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { onSubmitUserName(userName) }) {
-            Text(text = "Submit")
+        Button(onClick = { onSubmitSearchText(searchText) }) {
+            Text(text = stringResource(id = R.string.feature_btn_search))
         }
     }
 }
@@ -47,7 +48,7 @@ fun SearchScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSearchScreen() {
-    SearchScreen { onSubmitUserName ->
-        Log.e("TAG", "userName: $onSubmitUserName")
+    SearchScreen { onSubmitSearchText ->
+        Log.e("TAG", "searchText: $onSubmitSearchText")
     }
 }

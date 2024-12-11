@@ -1,4 +1,4 @@
-package com.example.bookmarkscreen
+package com.example.bookmark
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
