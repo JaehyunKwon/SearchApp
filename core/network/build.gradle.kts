@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
+    id("kotlinx-serialization")
 }
 
 android {
     namespace = "com.example.network"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -40,4 +42,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    //network
+    implementation(libs.retrofit2.kotlin.serialization)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit2.core)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.retrofit2.converter.scalars)
+    implementation(libs.okhttp.logging)
+    implementation(libs.okhttp)
 }
