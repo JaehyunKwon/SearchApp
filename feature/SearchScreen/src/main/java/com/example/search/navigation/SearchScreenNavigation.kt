@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 
 const val ROUTE_SEARCH_SCREEN = "SEARCH_SCREEN_ROUTE"
 
-fun NavGraphBuilder.navSearchScreen(onNextScreen: (String) -> Unit) {
+fun NavGraphBuilder.navSearchScreen() {
     composable(route = ROUTE_SEARCH_SCREEN) {
-        SearchScreen(onSubmitSearchText = onNextScreen)
+        SearchScreen()
     }
 }
