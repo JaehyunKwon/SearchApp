@@ -14,9 +14,7 @@ fun AppNavHost(navController: NavHostController) {
         navController = navController,
         startDestination = ROUTE_SEARCH_SCREEN // Set the initial screen
     ) {
-        navSearchScreen(onNextScreen = { userName ->
-            navController.navigate(BOOKMARK_ROUTE)
-        })
+        navSearchScreen()
 
         navBookmarkScreen {
             navController.navigate(ROUTE_SEARCH_SCREEN){

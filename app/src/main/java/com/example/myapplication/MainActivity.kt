@@ -40,7 +40,9 @@ import com.example.search.navigation.ROUTE_SEARCH_SCREEN
 import com.example.myapplication.navigation.AppNavHost
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.bookmark.navigation.BOOKMARK_ROUTE
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,10 +149,6 @@ fun BottomNavigation(
                 },
                 onClick = {
                     navController.navigate(item.screenRoute) {
-                        navController.graph.startDestinationRoute?.let {
-                            popUpTo(it) { saveState = true }
-                        }
-                        launchSingleTop = true
                         restoreState = true
                     }
                 },

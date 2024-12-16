@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class ImageDataViewModel @Inject constructor(
 
     fun getImage(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            imageRepository.getImage(query).collect { response ->
+            imageRepository.getImage(query).collectLatest { response ->
                 _imageState.value = response
             }
         }
