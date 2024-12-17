@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -59,4 +61,16 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
+    //hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.dagger.hilt.compiler)
+
+    // glide
+    implementation(libs.landscapist.glide)
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
+
+    implementation(project(":core:data"))
 }

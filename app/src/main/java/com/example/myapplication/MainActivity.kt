@@ -129,7 +129,7 @@ fun BottomNavigation(
         items.forEach { item ->
             NavigationBarItem(
                 selected = currentRoute == item.screenRoute,
-                alwaysShowLabel = false,
+                alwaysShowLabel = true,
                 label = {
                     Text(
                         text = stringResource(id = item.title),
@@ -138,18 +138,11 @@ fun BottomNavigation(
                         )
                     )
                 },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = item.icon),
-                        contentDescription = stringResource(id = item.title),
-                        modifier = Modifier
-                            .width(26.dp)
-                            .height(26.dp)
-                    )
-                },
+                icon = {},
                 onClick = {
                     navController.navigate(item.screenRoute) {
                         restoreState = true
+                        launchSingleTop = true
                     }
                 },
             )
@@ -157,11 +150,11 @@ fun BottomNavigation(
     }
 }
 
-data class BottomNavItem(val title: Int, val icon: Int, val screenRoute: String)
+data class BottomNavItem(val title: Int, val screenRoute: String)
 
 val items = listOf(
-    BottomNavItem(R.string.search_screen, R.drawable.ic_launcher_background, ROUTE_SEARCH_SCREEN),
-    BottomNavItem(R.string.bookmark_screen, R.drawable.ic_launcher_foreground, BOOKMARK_ROUTE)
+    BottomNavItem(R.string.search_screen, ROUTE_SEARCH_SCREEN),
+    BottomNavItem(R.string.bookmark_screen, BOOKMARK_ROUTE)
 )
 
 

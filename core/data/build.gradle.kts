@@ -43,12 +43,19 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
     //hilt
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
 
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.gson)
     implementation(libs.okhttp)
+
+    implementation(project(":core:network"))
 }

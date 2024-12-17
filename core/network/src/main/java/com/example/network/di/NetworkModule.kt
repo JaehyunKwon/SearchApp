@@ -1,8 +1,6 @@
 package com.example.network.di
 
 import com.example.network.api.ApiService
-import com.example.network.repository.ImageRepository
-import com.example.network.repository.ImageRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -78,4 +78,5 @@ dependencies {
     annotationProcessor(libs.compiler)
 
     implementation(project(":core:network"))
+    implementation(project(":core:data"))
 }

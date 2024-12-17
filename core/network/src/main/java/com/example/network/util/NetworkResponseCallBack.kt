@@ -9,7 +9,7 @@ object NetworkResponseCallBack {
         } catch (e: Exception) {
             when (e) {
                 is IOException -> ApiResult.NetworkError(e)
-                else -> ApiResult.UnknownError(e)
+                else -> ApiResult.Error(e.toString())
             }
         }
     }
