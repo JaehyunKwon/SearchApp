@@ -1,5 +1,6 @@
 package com.example.search.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -25,9 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,11 +41,37 @@ import com.example.network.dto.NetworkResponse
 import com.example.network.util.ApiResult
 import com.example.search.viewmodel.ListDataViewModel
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
 
+@OptIn(FlowPreview::class)
 @Composable
 fun SearchScreen() {
     val viewModel: ListDataViewModel = hiltViewModel()
     val list by viewModel.imageState.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+
+    var searchText by remember { mutableStateOf("") }
+    val searchTextFlow = remember { MutableStateFlow("") }
+
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(searchText) {
+        searchTextFlow.value = searchText
+    }
+
+    // 일정 시간 동안 변경이 없을 경우에만 API 호출
+    LaunchedEffect(searchTextFlow) {
+        searchTextFlow
+            .debounce(1000L) // 1초간 변경이 없을 때 실행
+            .collect { debouncedText ->
+                if (debouncedText.isNotEmpty()) {
+                    viewModel.getImage(debouncedText)
+                    focusManager.clearFocus() // 키보드 내리기
+                }
+            }
+    }
 
     Column(
         modifier = Modifier
@@ -54,7 +83,6 @@ fun SearchScreen() {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         ) {
-            var searchText by remember { mutableStateOf("") }
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
                 modifier = Modifier.weight(1f),
@@ -63,13 +91,19 @@ fun SearchScreen() {
                     searchText = it
                 })
             Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = {
-                viewModel.getImage(searchText)
-            }) {
-                Text(text = stringResource(id = R.string.feature_btn_search))
-            }
         }
-        ImageListView(items = list, viewModel)
+
+        if (isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            ImageListView(items = list, viewModel)
+        }
     }
 }
 
@@ -79,7 +113,7 @@ fun ImageListView(items: ApiResult<NetworkResponse>, viewModel: ListDataViewMode
         is ApiResult.Success -> {
             LazyColumn {
                 items(items.data.documents.size) { index ->
-                    BookmarkListItem(
+                    SearchListItem(
                         document = items.data.documents[index],
                         viewModel = viewModel
                     )
@@ -87,15 +121,18 @@ fun ImageListView(items: ApiResult<NetworkResponse>, viewModel: ListDataViewMode
             }
         }
 
-        is ApiResult.Error, is ApiResult.NetworkError -> {
+        is ApiResult.Error -> {
             // 오류 상태 표시
-            Text("Error: Unknown error")
+            Text(stringResource(R.string.unknown_error))
+        }
+        is ApiResult.NetworkError -> {
+            Text(stringResource(R.string.network_error))
         }
     }
 }
 
 @Composable
-fun BookmarkListItem(
+fun SearchListItem(
     document: DocumentsDto,
     viewModel: ListDataViewModel
 ) {
