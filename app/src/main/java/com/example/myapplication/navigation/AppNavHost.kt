@@ -16,13 +16,6 @@ fun AppNavHost(navController: NavHostController) {
     ) {
         navSearchScreen()
 
-        navBookmarkScreen {
-            navController.navigate(ROUTE_SEARCH_SCREEN){
-                popUpTo(ROUTE_SEARCH_SCREEN){
-                    inclusive = true
-                }
-            }
-
-        }
+        navBookmarkScreen()
     }
 }

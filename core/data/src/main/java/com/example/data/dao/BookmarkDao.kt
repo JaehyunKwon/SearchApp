@@ -20,5 +20,5 @@ interface BookmarkDao {
     suspend fun isBookmarked(doc_url: String): DocumentsEntity?
 
     @Query("SELECT * FROM bookmarks")
-    suspend fun getBookmark(): Flow<List<DocumentsEntity>>
+    fun getBookmark(): Flow<List<DocumentsEntity>>
 }
