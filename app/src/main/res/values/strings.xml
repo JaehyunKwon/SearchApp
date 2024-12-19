@@ -3,5 +3,4 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="search_screen">검색</string>
     <string name="bookmark_screen">북마크</string>
-    <string name="title_dynamicfeature">Module Title</string>
 </resources>

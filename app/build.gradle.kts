@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    //id("com.google.devtools.ksp")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
@@ -33,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -50,7 +49,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dynamicFeatures += setOf(":dynamicfeature")
 }
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -75,9 +73,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-    implementation(project(":feature:SearchScreen"))
+    ksp(libs.dagger.hilt.compiler)
 
+    implementation(project(":feature:SearchScreen"))
     implementation(project(":feature:BookmarkScreen"))
+    implementation(project(":core:network"))
+    implementation(project(":core:data"))
 }
